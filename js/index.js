@@ -23,7 +23,7 @@ $(function(){
     var musicImgsData = ['img/bg.jpg','img/bg1.jpg','img/bg2.jpg']    // 图片地址数组
     var musicNameData = ['出山','盗将行','归去来兮'];                   // 歌曲名数组
     var artistNameData = ['花粥/王胜娚','花粥/马雨阳','花粥']            // 创作歌手数组
-    var musicUrls=['mp3/music1.mp3','mp3/music2.mp3','mp3/music3.mp3'];// 歌曲mp3数组
+    var musicUrls=['mp23/music1.mp3','mp3/music2.mp3','mp3/music3.mp3'];// 歌曲mp3数组
     var currIndex = -1;              // 当前播放索引
     
     var buffInterval = null          // 初始化定时器 判断是否需要缓冲
