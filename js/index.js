@@ -177,60 +177,56 @@ $(function(){
    
     // 点击上一首/下一首时，触发该函数。 
     //注意：后面代码初始化时，会触发一次selectTrack(0)，因此下面一些地方需要判断flag是否为0
-    function selectTrack(flag)
-    {
-        // 初始 || 下一首
-        if( flag == 0 || flag == 1 )
-            ++currIndex;
-        else
+    function selectTrack(flag){
+        if( flag == 0 || flag == 1 ){  // 初始 || 点击下一首
+            ++ currIndex;
+            if(currIndex >=len){      // 当处于最后一首时，点击下一首，播放索引置为第一首
+                currIndex = 0;
+            }
+        }else{                    // 点击上一首
             --currIndex;
-
-        if( (currIndex > -1) && (currIndex < len) ){
-            if( flag == 0 )
-                playPauseBtn.attr('class','btn play-pause icon-jiediankaishi iconfont'); // 显示播放图标
-            else
-            {
-                musicImgs.removeClass('buffering');   
-                playPauseBtn.attr('class','btn play-pause icon-zanting iconfont') // 显示暂停图标
+            if(currIndex<=-1){    // 当处于第一首时，点击上一首，播放索引置为最后一首
+                currIndex = len-1;
             }
-
-            seekBar.width(0);           // 重置播放进度条为0
-            time.removeClass('active');
-            tProgress.text('00:00');    // 播放时间重置
-            totalTime.text('00:00');    // 总时间重置
-
-            // 获取当前索引的:歌曲名，歌手名，图片，歌曲链接等信息
-            currMusic = musicNameData[currIndex];
-            currArtist = artistNameData[currIndex];
-            currImg = musicImgsData[currIndex];
-            audio.src = musicUrls[currIndex];
-            
-            nTime = 0;
-            bTime = new Date();
-            bTime = bTime.getTime();
-
-            // 如果点击的是上一首/下一首 则设置开始播放，添加相关类名，重新开启定时器
-            if(flag != 0){
-                audio.play();
-                playerContent1.addClass('active');
-                musicImgs.addClass('active');
-            
-                clearInterval(buffInterval);
-                checkBuffering();
-            }
-
-            // 将歌手名，歌曲名，图片链接，设置到元素上
-            artistName.text(currArtist);
-            musicName.text(currMusic);
-            musicImgs.find('.img').css({'background':'url('+currImg+')'})
         }
-        else{
-            // 歌曲播放到最后一首/第一首  再点击下一首/上一首  无效
-            if( flag == 0 || flag == 1 )
-                --currIndex;
-            else
-                ++currIndex;
+
+        if( flag == 0 ){
+            playPauseBtn.attr('class','btn play-pause icon-jiediankaishi iconfont'); // 显示播放图标
+        }else{
+            musicImgs.removeClass('buffering');   
+            playPauseBtn.attr('class','btn play-pause icon-zanting iconfont') // 显示暂停图标
         }
+
+        seekBar.width(0);           // 重置播放进度条为0
+        time.removeClass('active');
+        tProgress.text('00:00');    // 播放时间重置
+        totalTime.text('00:00');    // 总时间重置
+
+        // 获取当前索引的:歌曲名，歌手名，图片，歌曲链接等信息
+        currMusic = musicNameData[currIndex];
+        currArtist = artistNameData[currIndex];
+        currImg = musicImgsData[currIndex];
+        audio.src = musicUrls[currIndex];
+        
+        nTime = 0;
+        bTime = new Date();
+        bTime = bTime.getTime();
+
+        // 如果点击的是上一首/下一首 则设置开始播放，添加相关类名，重新开启定时器
+        if(flag != 0){
+            audio.play();
+            playerContent1.addClass('active');
+            musicImgs.addClass('active');
+        
+            clearInterval(buffInterval);
+            checkBuffering();
+        }
+
+        // 将歌手名，歌曲名，图片链接，设置到元素上
+        artistName.text(currArtist);
+        musicName.text(currMusic);
+        musicImgs.find('.img').css({'background':'url('+currImg+')'})
+        
     }
 
 
